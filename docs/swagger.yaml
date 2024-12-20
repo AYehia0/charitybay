@@ -1,0 +1,77 @@
+basePath: /v1
+definitions:
+  entity.Greet:
+    properties:
+      message:
+        example: Hello, World!
+        type: string
+    type: object
+  v1.greetResponse:
+    properties:
+      greets:
+        items:
+          $ref: '#/definitions/entity.Greet'
+        type: array
+    type: object
+  v1.response:
+    properties:
+      error:
+        example: message
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is the CharityBay API server.
+  title: CharityBay API
+  version: "1.0"
+paths:
+  /greets:
+    get:
+      description: Show all greets
+      operationId: get-greets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/v1.greetResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Show all greets
+      tags:
+      - greet
+    post:
+      consumes:
+      - application/json
+      description: Create a greet
+      operationId: create-greet
+      parameters:
+      - description: Greet object
+        in: body
+        name: greet
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Greet'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/v1.response'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/v1.response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/v1.response'
+      summary: Create a greet
+      tags:
+      - greet
+swagger: "2.0"
